@@ -1,0 +1,107 @@
+{
+  "experiment": "FDBench Audit-v2 E10 human validation",
+  "stage": "E10.1b protocol and blind-package freeze",
+  "status": "PRE_ANNOTATION_FROZEN",
+  "raters": 3,
+  "independent_rating": true,
+  "sampling": {
+    "population_tasks": 106,
+    "sample_tasks_B_C": 40,
+    "sampling_unit": "task",
+    "sampling_seed": 20260907,
+    "sampling_method": "simple random sample without replacement from all 106 task IDs"
+  },
+  "blinding": {
+    "task_id_hidden": true,
+    "generator_hidden": true,
+    "condition_hidden": true,
+    "automatic_fix_hidden": true,
+    "evidence_hidden": true,
+    "ground_truth_fields_hidden": true,
+    "pair_side_seed": 20260908,
+    "presentation_seed": 20260909,
+    "pair_side_balance": "exactly 20 correct-as-A and 20 correct-as-B within each generator"
+  },
+  "E10_A": {
+    "unit": "task",
+    "n": 106,
+    "questions": {
+      "defect_visible": [
+        "Yes",
+        "No",
+        "U"
+      ],
+      "single_primary_defect": [
+        "Yes",
+        "No",
+        "U"
+      ],
+      "page_intact": [
+        "Yes",
+        "No",
+        "U"
+      ],
+      "css_like_defect": [
+        "Yes",
+        "No",
+        "U"
+      ]
+    },
+    "primary_construction_valid_definition": "majority Yes on defect_visible AND single_primary_defect AND page_intact"
+  },
+  "E10_B": {
+    "unit": "repaired candidate",
+    "tasks": 40,
+    "generators": [
+      "Qwen3.5-Plus",
+      "Kimi-K2.5"
+    ],
+    "conditions": [
+      "correct",
+      "clean shuffled"
+    ],
+    "qwen_replicate": 1,
+    "n_candidates": 160,
+    "questions": {
+      "defect_resolution": [
+        "0",
+        "1",
+        "2",
+        "U"
+      ],
+      "new_regression": [
+        "0",
+        "1",
+        "U"
+      ],
+      "target_similarity_1_5": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "human_fix_definition": "defect_resolution == 2 AND new_regression == 0",
+    "unresolved_definition": "at least 2 of 3 raters give U on a required human-fix component"
+  },
+  "agreement_metrics": {
+    "E10_A": [
+      "raw agreement",
+      "Fleiss kappa",
+      "Gwet AC1"
+    ],
+    "E10_B_defect_resolution": [
+      "Krippendorff alpha ordinal"
+    ],
+    "E10_B_new_regression": [
+      "raw agreement",
+      "Fleiss kappa",
+      "Gwet AC1"
+    ],
+    "E10_B_similarity": [
+      "ICC(2,1) absolute agreement",
+      "ICC(2,3) mean-rating reliability"
+    ]
+  }
+}

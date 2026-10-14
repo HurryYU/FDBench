@@ -1,0 +1,9 @@
+scope,human,automatic,count
+all,positive,positive,41
+all,positive,negative,15
+all,negative,positive,0
+all,negative,negative,104
+valid,positive,positive,34
+valid,positive,negative,4
+valid,negative,positive,0
+valid,negative,negative,90

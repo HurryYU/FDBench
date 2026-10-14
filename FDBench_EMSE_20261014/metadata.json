@@ -1,0 +1,27 @@
+{
+  "article_title": "FDBench: Automated Construction and Measurement Validation of Visual Front-end Debugging Benchmark",
+  "journal": "Empirical Software Engineering",
+  "authors": [
+    "Ping Liu",
+    "Zihao Yu"
+  ],
+  "corresponding_author": "Ping Liu",
+  "corresponding_email": "446682052@qq.com",
+  "corresponding_affiliation": "Big Data and Intelligent Computing Technology Innovation Center, Chongqing College of Humanities, Science & Technology, Chongqing 401524, China",
+  "source_manuscript": "FDBench_中文版_1013修订.docx",
+  "source_manuscript_sha256": "95201934c2a40535d130bf3e112a5edb553e39b98633b382d55869d8fd5e1a74",
+  "benchmark_version": "FDBench v1",
+  "packaging_date": "2026-10-14",
+  "deposit_status": "Prepared for journal review; not deposited in a public repository",
+  "persistent_identifier": null,
+  "author_created_data_licence": null,
+  "knowledge_base_origin": {
+    "KB-1": "MDN CSS property reference snapshots",
+    "KB-2": "MDN CSS guide snapshots",
+    "KB-3": "Programmatically generated quick-reference pages derived from MDN examples"
+  },
+  "generation_models": [
+    "Qwen3.5-Plus",
+    "Kimi-K2.5"
+  ]
+}

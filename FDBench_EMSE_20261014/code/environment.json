@@ -1,0 +1,21 @@
+{
+  "construction_seed": 20260723,
+  "human_sampling_seed": 20260907,
+  "recorded_python": "3.10.20",
+  "recorded_conda_environment": "mragexp",
+  "playwright": "1.49.0",
+  "chromium_version_reported_in_manuscript": "131.0.6778.33",
+  "viewport_px": [
+    1280,
+    960
+  ],
+  "device_scale_factor": 1,
+  "post_load_wait_ms": 300,
+  "text_encoder": "BAAI/bge-m3",
+  "visual_encoder": "vidore/colpali-v1.3-hf",
+  "text_top_k": 5,
+  "max_verification_attempts": 3,
+  "model_weights_included": false,
+  "raw_render_files_retained": true,
+  "environment_note": "Recorded browser version comes from the submitted manuscript. New rendering or model calls were not performed during packaging."
+}

@@ -1,0 +1,7 @@
+{
+  "data/tasks/tasks.jsonl": "9a0a64a66a2815606fba74e53864ce67df1b50ce78b8f03395392538ab1cdaed",
+  "experiments_audit_v2/06_evidence_causality/e6_single_round_runs.jsonl": "b06134a6eb2b8685598cad12271da8309cb8fa90252f04608d1395abe15dbc4d",
+  "experiments_audit_v2/08_second_generator/e8_kimi_single_round_runs.jsonl": "8faf2f4847c3e835ed90aea5de978cc1d011dc9a3665dbb0f98552662ecdad84",
+  "src/render.py": "e103ca78726574043027cd54f814db12483f0a608e0d675340fbc00afb878b2b",
+  "src/metrics.py": "b45f2a4625fa0a991cd02fc9589ff3a9150c8852af238b15355fcfef6b146e32"
+}

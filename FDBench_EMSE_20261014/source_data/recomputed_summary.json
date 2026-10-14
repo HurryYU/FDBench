@@ -1,0 +1,41 @@
+{
+  "task_count": 106,
+  "source_pages": 63,
+  "construction_valid": 88,
+  "sampled_tasks": 40,
+  "sampled_valid_tasks": 32,
+  "repair_candidates": 160,
+  "confusion_matrices": {
+    "all": {
+      "TP": 41,
+      "TN": 104,
+      "FP": 0,
+      "FN": 15
+    },
+    "valid": {
+      "TP": 34,
+      "TN": 90,
+      "FP": 0,
+      "FN": 4
+    },
+    "invalid": {
+      "TP": 7,
+      "TN": 14,
+      "FP": 0,
+      "FN": 11
+    }
+  },
+  "repair_rating_reliability": {
+    "krippendorff_alpha_ordinal": 0.7456604837134116,
+    "regression": {
+      "pairwise_agreement_pct": 95.41666666666666,
+      "unanimous_agreement_pct": 93.125,
+      "fleiss_kappa": 0.9030552291421855,
+      "gwet_ac1": 0.9130663856691252
+    },
+    "icc_2_1": 0.6737175738334935,
+    "icc_2_3": 0.8610047112522856
+  },
+  "independent_wilson_warning": "Precision reference only; task and source-page clustering is not adjusted.",
+  "result": "PASS"
+}

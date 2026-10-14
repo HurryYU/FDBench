@@ -1,0 +1,23 @@
+# 核心
+playwright==1.49.0
+Pillow>=10.0
+numpy>=1.26
+scipy>=1.11
+pandas>=2.0
+
+# 文本检索
+rank-bm25>=0.2.2
+FlagEmbedding>=1.2.10        # BGE-m3 中英文稠密检索
+faiss-cpu>=1.8.0
+
+# 视觉检索（二选一）
+colpali-engine>=0.3.0        # 有 GPU：ColPali / ColQwen
+transformers>=4.44           # 无 GPU：ColModernVBERT 或 CLIP 回退
+
+# 模型调用（按实际选择保留其一）
+openai>=1.40                 # 兼容 DeepSeek / Qwen / Kimi 等 OpenAI 协议端点
+
+# 工具
+pyyaml>=6.0
+tqdm>=4.66
+markdown-it-py>=3.0          # 解析 MDN 的 markdown 源文件

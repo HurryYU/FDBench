@@ -1,0 +1,9 @@
+manuscript_item,source_data,observations
+Table 1 and Figure 1,table_01_composition.csv; knowledge_library_inventory.csv; task_geometry.csv,data/tasks; data/source_pages; ESM_2 knowledge library; code/src
+Table 2,table_02_construction_agreement.csv; construction_labels.csv,human_evaluation/ratings/A_R1.csv through A_R3.csv; construction_case_key.csv
+Table 3 and Figure 2a,table_03_category_validity.csv; figure_02a_category_counts.csv,all 106 tasks and three construction ratings per task
+Table 4 and Figures 2b 2c 2d,table_04_criterion_performance.csv; figure_02b_criterion_metrics.csv; figure_02cd_confusion_matrices.csv,repair_candidates_joined.csv; human_evaluation/ratings/B_R1.csv through B_R3.csv; repair_candidate_key.csv
+Table 5,table_05_precision_reference.csv,Table 4 confusion counts; Wilson intervals assuming independent candidates
+Table 6,table_06_historical_usage.csv,historical_systems/metrics.jsonl; historical_systems/runs.jsonl
+Section 5.3 repair rating reliability,recomputed_summary.json,human_evaluation/ratings/B_R1.csv through B_R3.csv
+Section 3.4 geometry distribution,task_geometry.csv,data/tasks/tasks.jsonl diff_stats

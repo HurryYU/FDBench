@@ -1,0 +1,27 @@
+{
+  "raw_observation_edits": 0,
+  "source_deletions": 0,
+  "rater_identifier_policy": "Retain original anonymous R1/R2/R3 codes",
+  "transformations": [
+    "Selected manuscript-specific records and files",
+    "Normalized rating filenames",
+    "Exported completed case mapping as CSV",
+    "Derived numeric summaries from raw ratings",
+    "Replaced one local model path with a model identifier in index metadata"
+  ],
+  "excluded": [
+    "Unrelated experimental comparisons",
+    "C paired preference module",
+    "Model weights",
+    "Credentials and environment files",
+    "Build caches and terminal logs",
+    "Internal working drafts"
+  ],
+  "provenance_preserved": [
+    "Model identities",
+    "Model-generated content",
+    "Controlled mutations",
+    "Programmatically generated KB-3 origin",
+    "Original ratings and evidence hashes"
+  ]
+}

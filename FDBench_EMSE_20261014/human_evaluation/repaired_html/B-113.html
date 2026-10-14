@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+ <!--<![endif]-->
+ <head>
+  <style>
+p,li,dd,dt,blockquote{max-width:none;line-height:1.5em}
+
+
+@font-face {
+  font-family: 'Signika Negative';
+  font-style: normal;
+  font-weight: 600;
+  src: url(https://fonts.gstatic.com/s/signikanegative/v21/E21x_cfngu7HiRpPX3ZpNE4kY5zKSPmJXkF0VDD2RAp5TI3rvdw.ttf) format('truetype');
+}
+  </style>
+  <meta charset="utf-8">
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <title>
+   Reorganising a Consul key-value store &mdash; David Winterbottom
+  </title>
+  <meta content="David Winterbottom" name="author">
+  <meta content="This is really just a reference on how to combine JQ's select filters." name="description">
+  <meta content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9" http-equiv="origin-trial">
+ </head>
+ <body>
+  <article class="hentry" id="container">
+   <header>
+    <div id="article_nav">
+     <h5>
+      <a>
+       home
+      </a>
+      |
+      <a>
+       writing
+      </a>
+      |
+      <a>
+       TIL
+      </a>
+      |
+      <span class="desktop_only">
+       <a>
+        now
+       </a>
+       |
+      </span>
+      <a>
+       about
+      </a>
+     </h5>
+    </div>
+   </header>
+   <div id="main" role="main">
+    <div class="article" id="content">
+     <h1 class="entry-title" id="article_title">
+      Reorganising a Consul key-value store
+     </h1>
+     <div class="byline desktop_only">
+      by
+      <a class="author vcard">
+       David Winterbottom
+      </a>
+      on
+      <time class="published" datetime>
+       Monday, 27 March 2017
+      </time>
+     </div>
+     <div class="byline mobile_only">
+      by
+      <a class="author vcard">
+       David Winterbottom
+      </a>
+      <br>
+      <span class="article_date">
+       on
+       <time class="published" datetime>
+        Monday, 27 March 2017
+       </time>
+      </span>
+     </div>
+     <div class="entry-content" id="article_content">
+      <p>
+       If your Consul key-value store is structured as:
+      </p>
+      <div class="highlight">
+       <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>/
+</span></span><span style="display:flex;"><span>    A/
+</span></span><span style="display:flex;"><span>        X <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        Z <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>        Y <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>    C
+</span></span><span style="display:flex;"><span>    D
+</span></span></code></pre>
+      </div>
+      <p>
+       but you now realise you should have namespaced everything within
+       <code>
+        WEBSERVER/
+       </code>
+       (or something like that):
+      </p>
+      <div class="highlight">
+       <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/
+</span></span><span style="display:flex;"><span>    WEBSERVER/
+</span></span><span style="display:flex;"><span>        A/
+</span></span><span style="display:flex;"><span>            X <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            Z <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>            Y <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>        C
+</span></span><span style="display:flex;"><span>        D
+</span></span></code></pre>
+      </div>
+      <p>
+       then this Bash script will help you migrate:
+      </p>
+      <div class="highlight">
+       <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>set -e  <span style="color:#75715e"># Exit on error</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Emit "key value" lines for all keys in Consul's KV store</span>
+</span></span><span style="display:flex;"><span>keys_and_values<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Recursively fetch all values from Consul but exclude:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># (a) those that end in / (as these are folders)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># (b) those that start with WEBSERVER/ (as that's where we are migrating</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#     to).</span>
+</span></span><span style="display:flex;"><span>    curl -s <span style="color:#e6db74">"localhost/v1/kv/?recurse"</span> | jq -r <span style="color:#e6db74">'
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        .[] |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        select(
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            (.Key | endswith("/") | not) and
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            (.Key | startswith("WEBSERVER") | not)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ) |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        [.Key, " ", .Value] |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        add'</span> | <span style="color:#66d9ef">while</span> read key b64value
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Consul's REST API returns values base64-encoded so we decode here.</span>
+</span></span><span style="display:flex;"><span>        echo $key <span style="color:#e6db74">`</span>echo <span style="color:#e6db74">"</span>$b64value<span style="color:#e6db74">"</span> | base64 -d<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set a new value in Consul's KV store</span>
+</span></span><span style="display:flex;"><span>set_key<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    key<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>    value<span style="color:#f92672">=</span>$2
+</span></span><span style="display:flex;"><span>    curl -s -X PUT -d <span style="color:#e6db74">"</span>$value<span style="color:#e6db74">"</span> <span style="color:#e6db74">"localhost/v1/kv/</span>$key<span style="color:#e6db74">"</span> &gt; /dev/null
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>migrate_to_webserver_namespace<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    keys_and_values | <span style="color:#66d9ef">while</span> read key value
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        set_key <span style="color:#e6db74">"WEBSERVER/</span>$key<span style="color:#e6db74">"</span> <span style="color:#e6db74">"</span>$value<span style="color:#e6db74">"</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>migrate_to_webserver_namespace
+</span></span></code></pre>
+      </div>
+      <p>
+       This script uses
+       <a>
+        Consul&rsquo;s REST API
+       </a>
+       and filters
+the results using
+       <a>
+        <code>
+         jq
+        </code>
+       </a>
+       <sup id="fnref:1">
+        <a class="footnote-ref" role="doc-noteref">
+         1
+        </a>
+       </sup>
+       . It&rsquo;s easily
+adapted to migrate key-value pairs between different namespaces.
+      </p>
+      <div class="footnotes" role="doc-endnotes">
+       <hr>
+       <ol>
+        <li id="fn:1">
+         <p>
+          I can never remember jq&rsquo;s
+          <code>
+           select
+          </code>
+          syntax so this post is intended largely
+as a personal reference on how to do this.&nbsp;
+          <a class="footnote-backref" role="doc-backlink">
+           &larrhk;︎
+          </a>
+         </p>
+        </li>
+       </ol>
+      </div>
+     </div>
+     <div id="article_meta">
+      <span class="hr">
+       &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+      </span>
+      <p>
+       Something wrong?
+       <a>
+        Suggest an improvement
+       </a>
+       or
+       <a>
+        add a comment
+       </a>
+       (see
+       <a>
+        article history
+       </a>
+       )
+       <br>
+       Tagged with:
+       <a>
+        consul
+       </a>
+       ,
+       <a>
+        bash
+       </a>
+       ,
+       <a>
+        jq
+       </a>
+       <br>
+       Filed in:
+       <a>
+        tips
+       </a>
+      </p>
+      <p>
+       Previous:
+       <a>
+        Lies you're told on a software project
+       </a>
+       <br>
+       Next:
+       <a>
+        Podcast.__init__ on Oscar
+       </a>
+      </p>
+      <p>
+       Copyright &copy; 2005-2023
+       <a>
+        David Winterbottom
+       </a>
+       <br>
+       Content licensed under
+       <a>
+        CC BY-NC-SA 4.0
+       </a>
+       .
+      </p>
+     </div>
+    </div>
+   </div>
+  </article>
+ </body>
+</html>
